@@ -1,5 +1,6 @@
 .profile__vocation {
-  grid-column: 1;
+  grid-column-start: 1;
+  grid-column-end: 3;
   grid-row: 2;
   font-weight: 400;
   font-size: 18px;

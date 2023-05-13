@@ -5,6 +5,7 @@
   margin: 40px auto 0;
   align-items: center;
   gap: 30px;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width:767px) {

@@ -26,72 +26,68 @@
     <section class="profile">
       <img class="profile__avatar" src="./images/avatar.svg" alt="Аватар">
       <div class="profile__info">
-        <h1 class="profile__name" id="name">Жак-Ив Кусто</h1>
-        <p class="profile__vocation" id="vocation">Исследователь океана</p>
-        <button class="profile__edit-button" onclick="togglePopup()">
-          <img src="./images/edit.svg" alt="Редактировать">
-        </button>
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <p class="profile__vocation">Исследователь океана</p>
+        <button type="button" class="profile__edit-button" onclick="togglePopup()"></button>
       </div>
-      <button class="profile__add-button">
-        <img src="./images/plus.svg" alt="Добавить">
-      </button>
+      <button type="button" class="profile__add-button"></button>
     </section>
-    <section class="elements">
+    <div class="elements">
       <article class="element">
         <img class="image" src="./images/karachaevsk.png" alt="Карачаевск">
         <div class="element__caption">
           <h2 class="element__title">Карачаевск</h2>
-          <button class="element__like-button"></button>
+          <button type="button" class="element__like-button"></button>
         </div>
       </article>
       <article class="element">
         <img class="image" src="./images/elbrus.png" alt="Эльбрус">
         <div class="element__caption">
           <h2 class="element__title">Гора Эльбрус</h2>
-          <button class="element__like-button"></button>
+          <button type="button" class="element__like-button"></button>
         </div>
       </article>
       <article class="element">
         <img class="image" src="./images/dombay.png" alt="Домбай">
         <div class="element__caption">
           <h2 class="element__title">Домбай</h2>
-          <button class="element__like-button"></button>
+          <button type="button" class="element__like-button"></button>
         </div>
       </article>
       <article class="element">
         <img class="image" src="./images/elbrus.png" alt="Эльбрус">
         <div class="element__caption">
           <h2 class="element__title">Гора Эльбрус</h2>
-          <button class="element__like-button"></button>
+          <button type="button" class="element__like-button"></button>
         </div>
       </article>
       <article class="element">
         <img class="image" src="./images/dombay.png" alt="Домбай">
         <div class="element__caption">
           <h2 class="element__title">Домбай</h2>
-          <button class="element__like-button"></button>
+          <button type="button" class="element__like-button"></button>
         </div>
       </article>
       <article class="element">
         <img class="image" src="./images/karachaevsk.png" alt="Карачаевск">
         <div class="element__caption">
           <h2 class="element__title">Карачаево-Черкесия</h2>
-          <button class="element__like-button"></button>
+          <button type="button" class="element__like-button"></button>
         </div>
       </article>
-    </section>
+    </div>
   </main>
   <footer class="footer">© 2023 Mesto Russia</footer>
   <div class="popup" id="popup">
     <div class="popup__container">
-      <button class="popup__close" onclick="togglePopup()"></button>
+      <button type="button" class="popup__close" onclick="togglePopup()"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="form">
+      <form class="form" name="form">
         <fieldset class="form__group">
-          <input class="form__input" type="text" id="name" value="Жак-Ив Кусто" placeholder="Введите имя">
+          <input class="form__input" type="text" name="name" value="Жак-Ив Кусто" placeholder="Введите имя">
         </fieldset>
         <fieldset class="form__group">
-          <input class="form__input" type="text" id="vocation" value="Исследователь океана"
+          <input class="form__input" type="text" name="vocation" value="Исследователь океана"
             placeholder="Введите профессию">
         </fieldset>
         <button type="submit" class="form__button">Сохранить</button>

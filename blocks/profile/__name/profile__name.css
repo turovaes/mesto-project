@@ -14,12 +14,12 @@
 @media screen and (max-width:967px) {
   .profile__name {
     font-size: 27px;
-    line-height: 26px;
+    line-height: 33px;
   }
 }
 
 @media screen and (max-width:767px) {
   .profile__name {
-    justify-self: end;
+    text-align: end;
   }
 }

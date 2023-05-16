@@ -21,6 +21,6 @@
 
 @media screen and (max-width:767px) {
   .profile__vocation {
-    justify-self: center;
+    text-align: center;
   }
 }

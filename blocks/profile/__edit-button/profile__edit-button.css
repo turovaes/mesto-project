@@ -7,7 +7,7 @@
   padding: 0;
   outline: none;
   background-color: transparent;
-  margin: 0;
+  margin: 0 0 8px;
   align-self: end;
   cursor: pointer;
   background-image: url(../../../images/edit.svg);
@@ -22,7 +22,6 @@
 
 @media screen and (max-width:967px) {
   .profile__edit-button {
-    align-self: center;
     background-size: 8.5px;
   }
 }
@@ -32,6 +31,5 @@
     width: 18px;
     height: 18px;
     background-size: 7.5px;
-
   }
 }

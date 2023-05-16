@@ -1,8 +1,8 @@
 .profile__info {
   display: grid;
   grid-template-columns: 1fr 24px;
-  grid-template-rows: 39px auto;
-  row-gap: 16px;
+  grid-template-rows: 46px auto;
+  row-gap: 8px;
   column-gap: 18px;
   box-sizing: border-box;
 }

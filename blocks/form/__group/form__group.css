@@ -1,5 +1,9 @@
 .form__group {
   border: 0;
   padding: 0;
-  margin: 16px 0 0;
+  margin: 0;
+}
+
+.form__group:not(:first-child) {
+  margin-top: 30px;
 }

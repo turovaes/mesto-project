@@ -72,7 +72,7 @@ editPopupForm.addEventListener('submit', saveProfile);
  * работа с карточками
  */
 
-const cardsList = [
+const initialCards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -101,20 +101,43 @@ const cardsList = [
 
 const cardsBlock = document.querySelector('.elements');
 
-function drawCards() {
-  cardsBlock.innerHTML = '';
-  cardsList.forEach(card => {
-    cardsBlock.innerHTML += `
-      <article class="element">
-        <img class="element__image" src="${card.link}" alt="${card.name}">
-        <img class="element__delete-button" src="./images/trash.svg" alt="Удалить">
-        <div class="element__caption">
-          <h2 class="element__title">${card.name}</h2>
-          <button type="button" class="element__like-button"></button>
-        </div>
-      </article>
+function addCard(name, link, addToStart) {
+  const newCard = `
+    <article class="element">
+      <img class="element__image" src="${link}" alt="${name}">
+      <img class="element__delete-button" src="./images/trash.svg" alt="Удалить">
+      <div class="element__caption">
+        <h2 class="element__title">${name}</h2>
+        <button type="button" class="element__like-button"></button>
+      </div>
+    </article>
     `;
-  })
+  if (addToStart) {
+    cardsBlock.innerHTML = newCard + cardsBlock.innerHTML;
+  } else {
+    cardsBlock.innerHTML += newCard;
+  }
 }
 
-drawCarsds();
+initialCards.forEach(card => {
+  addCard(card.name, card.link, false);
+})
+
+/**
+ * Добавление новой карточки
+ */
+const addPopupForm = addPopup.querySelector('.form');
+
+function createCard(evt) {
+  evt.preventDefault();
+  const nameInput = addPopupForm.querySelector('input[name="name"]');
+  const linkInput = addPopupForm.querySelector('input[name="link"]');
+  addCard(nameInput.value, linkInput.value, true);
+  closePopup();
+}
+
+addPopupForm.addEventListener('submit', createCard);
+
+/**
+ * Удаление карточки
+ */

@@ -4,7 +4,14 @@ const addPopup = document.getElementById('add-popup');
 
 
 function editPopupOpened() {
-  editPopup.classList.add('popup_opened')
+  editPopup.classList.add('popup_opened');
+
+  const nameInput = editPopupForm.querySelector('input[name="name"]');
+  const jobInput = editPopupForm.querySelector('input[name="vocation"]');
+  
+  nameInput.value = document.querySelector('.profile__name').innerHTML;
+  jobInput.value = document.querySelector('.profile__vocation').innerHTML;
+
 }
 
 function addPopupOpened() {

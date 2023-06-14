@@ -42,3 +42,21 @@ likesArr.forEach(function(el) {
   el.addEventListener('click', toggleLike )
 })
 
+/**
+ * Изменение профайла
+ */
+
+const editPopupForm = editPopup.querySelector('.form');
+
+function saveProfile(evt) {
+  evt.preventDefault();
+  const nameInput = editPopupForm.querySelector('input[name="name"]');
+  const jobInput = editPopupForm.querySelector('input[name="vocation"]');
+  
+  document.querySelector('.profile__name').innerHTML = nameInput.value;
+  document.querySelector('.profile__vocation').innerHTML = jobInput.value;
+
+  closePopup();
+}
+
+editPopupForm.addEventListener('submit', saveProfile);

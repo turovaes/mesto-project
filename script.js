@@ -1,0 +1,44 @@
+
+const editPopup = document.getElementById('edit-popup');
+const addPopup = document.getElementById('add-popup');
+
+
+function editPopupOpened() {
+  editPopup.classList.add('popup_opened')
+}
+
+function addPopupOpened() {
+  addPopup.classList.add('popup_opened')
+}
+
+function closePopup() {
+  editPopup.classList.remove('popup_opened')
+  addPopup.classList.remove('popup_opened')
+}
+
+function toggleLike(event) {
+  console.log(event.target);
+  event.target.classList.toggle('element__like-button_active');
+}
+
+
+const editButton = document.querySelector('.profile__edit-button');
+editButton.addEventListener('click', editPopupOpened);
+
+const closeButtonArr = document.querySelectorAll('.popup__close');
+// for (let i = 0; i < closeButtonArr.length; i++) {
+//   closeButtonArr[i].addEventListener('click', closePopup);
+// }
+
+closeButtonArr.forEach(function(el) {
+  el.addEventListener('click', closePopup);
+})
+
+const addButton = document.querySelector('.profile__add-button');
+addButton.addEventListener('click', addPopupOpened)
+
+const likesArr = document.querySelectorAll('.element__like-button');
+likesArr.forEach(function(el) {
+  el.addEventListener('click', toggleLike )
+})
+

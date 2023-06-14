@@ -24,7 +24,6 @@ function closePopup() {
 }
 
 function toggleLike(event) {
-  console.log(event.target);
   event.target.classList.toggle('element__like-button_active');
 }
 
@@ -105,7 +104,7 @@ function addCard(name, link, addToStart) {
   const newCard = `
     <article class="element">
       <img class="element__image" src="${link}" alt="${name}">
-      <img class="element__delete-button" src="./images/trash.svg" alt="Удалить">
+      <img class="element__delete-button" src="./images/trash.svg" alt="Удалить" onclick="deleteCard(this)">
       <div class="element__caption">
         <h2 class="element__title">${name}</h2>
         <button type="button" class="element__like-button"></button>
@@ -141,3 +140,9 @@ addPopupForm.addEventListener('submit', createCard);
 /**
  * Удаление карточки
  */
+
+function deleteCard(target) {
+  target.parentNode.remove();
+ 
+}
+

@@ -4,4 +4,9 @@
   height: 19px;
   right: 20px;
   top: 20px;
+  cursor: pointer;
+}
+
+.element__delete-button:hover {
+  opacity: 0.5;
 }

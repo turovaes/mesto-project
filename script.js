@@ -1,7 +1,7 @@
 
 const editPopup = document.getElementById('edit-popup');
 const addPopup = document.getElementById('add-popup');
-
+const imagePopup = document.getElementById('image-popup');
 
 function editPopupOpened() {
   editPopup.classList.add('popup_opened');
@@ -11,41 +11,34 @@ function editPopupOpened() {
 
   nameInput.value = document.querySelector('.profile__name').innerHTML;
   jobInput.value = document.querySelector('.profile__vocation').innerHTML;
-
 }
 
 function addPopupOpened() {
-  addPopup.classList.add('popup_opened')
+  addPopup.classList.add('popup_opened');
 }
 
 function closePopup() {
-  editPopup.classList.remove('popup_opened')
-  addPopup.classList.remove('popup_opened')
+  editPopup.classList.remove('popup_opened');
+  addPopup.classList.remove('popup_opened');
+  imagePopup.classList.remove('popup_opened');
 }
-
-function toggleLike(event) {
-  event.target.classList.toggle('element__like-button_active');
-}
-
 
 const editButton = document.querySelector('.profile__edit-button');
 editButton.addEventListener('click', editPopupOpened);
 
 const closeButtonArr = document.querySelectorAll('.popup__close');
-// for (let i = 0; i < closeButtonArr.length; i++) {
-//   closeButtonArr[i].addEventListener('click', closePopup);
-// }
 
-closeButtonArr.forEach(function (el) {
+closeButtonArr.forEach(el => {
   el.addEventListener('click', closePopup);
-})
+});
 
 const addButton = document.querySelector('.profile__add-button');
-addButton.addEventListener('click', addPopupOpened)
+addButton.addEventListener('click', addPopupOpened);
 
-const likesArr = document.querySelectorAll('.element__like-button');
-likesArr.forEach(function (el) {
-  el.addEventListener('click', toggleLike)
+const popups = document.querySelectorAll('.popup');
+
+popups.forEach(p => {
+  p.style.transition = "visibility 0.5s, opacity 0.5s ease-in-out";
 })
 
 /**
@@ -103,11 +96,11 @@ const cardsBlock = document.querySelector('.elements');
 function addCard(name, link, addToStart) {
   const newCard = `
     <article class="element">
-      <img class="element__image" src="${link}" alt="${name}">
+      <img class="element__image" src="${link}" alt="${name}" onclick="openImagePopup(this)">
       <img class="element__delete-button" src="./images/trash.svg" alt="Удалить" onclick="deleteCard(this)">
       <div class="element__caption">
         <h2 class="element__title">${name}</h2>
-        <button type="button" class="element__like-button"></button>
+        <button type="button" class="element__like-button" onclick="toggleLike(this)"></button>
       </div>
     </article>
     `;
@@ -143,6 +136,29 @@ addPopupForm.addEventListener('submit', createCard);
 
 function deleteCard(target) {
   target.parentNode.remove();
- 
 }
+
+/**
+ * Попап изображения
+ */
+
+function openImagePopup(target) {
+  imagePopup.classList.add('popup_opened');
+  const imageLink = target.getAttribute('src');
+  const imageName = target.getAttribute('alt');
+
+  imagePopup.querySelector('.popup__image').setAttribute('src', imageLink);
+  imagePopup.querySelector('.popup__image').setAttribute('alt', imageName);
+  imagePopup.querySelector('.popup__image-caption').innerHTML = imageName;
+}
+
+/**
+ * Тугл лайков 
+ */
+
+function toggleLike(target) {
+  target.classList.toggle('element__like-button_active');
+}  
+
+
 

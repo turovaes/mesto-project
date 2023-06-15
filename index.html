@@ -22,7 +22,7 @@
       </div>
       <button type="button" class="profile__add-button"></button>
     </section>
-    <section class="elements">
+    <section class="elements" id="elements">
     </section>
   </main>
   <footer class="footer">© 2023 Mesto Russia</footer>
@@ -56,13 +56,23 @@
       </form>
     </div>
   </div>
-  <div class="popup" id="image-popup">
+  <div class="popup popup_dark" id="image-popup">
     <div class="popup__container-image">
       <button type="button" class="popup__close"></button>
       <img class="popup__image">
       <p class="popup__image-caption"></p>
     </div>
   </div>
+  <template id="new-card">
+    <article class="element">
+      <img class="element__image">
+      <img class="element__delete-button" src="./images/trash.svg" alt="Удалить">
+      <div class="element__caption">
+        <h2 class="element__title"></h2>
+        <button type="button" class="element__like-button"></button>
+      </div>
+    </article>
+  </template>
   <script src="./script.js"></script>
 </body>
 

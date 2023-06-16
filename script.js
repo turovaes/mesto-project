@@ -134,6 +134,8 @@ function createCard(evt) {
   evt.preventDefault();
   const newCard = createCardTemplate(addPopupNameInput.value, addPopupLinkInput.value);
   cardsList.prepend(newCard);
+  addPopupNameInput.value = '';
+  addPopupLinkInput.value = '';
   closePopup(addPopup);
 }
 

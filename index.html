@@ -48,8 +48,14 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Новое место</h3>
       <form class="form" name="form">
-        <input class="form__input" type="text" name="name" placeholder="Название" required>
-        <input class="form__input" type="text" name="link" placeholder="Ссылка на картинку" required>
+        <div class="form__field">
+          <input class="form__input" type="text" name="name" placeholder="Название" minlength="2" maxlength="30" pattern="^[а-яА-ЯЁёa-zA-z\s-]+$" required>
+          <span class="form__input-error" data-input-error="name"></span>
+        </div>
+        <div class="form__field">
+          <input class="form__input" type="url" name="link" placeholder="Ссылка на картинку" required>
+          <span class="form__input-error" data-input-error="link"></span>
+        </div>
         <button type="submit" class="form__button">Сохранить</button>
       </form>
     </div>

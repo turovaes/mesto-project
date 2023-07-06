@@ -252,6 +252,36 @@ allForms.forEach(formElement => {
   toggleSubmitButtonState(submitButton, allInputs);
 });
 
+/**
+ * Закрытие попапа клавишей esc
+ */
+
+const closePopupIfOpened = (popup) => {
+  if (popup.classList.contains('popup_opened')) {
+    closePopup(popup);
+  }
+}
+
+const closePopupEsc = (evt) => {
+  if (evt.key === 'Escape') {
+    closePopupIfOpened(editPopup);
+    closePopupIfOpened(addPopup);
+  }
+}
+
+window.addEventListener('keydown', closePopupEsc);
 
 
+/**
+ * Закрытие попапа нажатием на оверлей
+ */
 
+const closePopupOverlay = (evt) => {
+  if (evt.currentTarget === evt.target) {
+    closePopupIfOpened(evt.currentTarget);
+  } 
+}
+
+
+editPopup.addEventListener('click', closePopupOverlay);
+addPopup.addEventListener('click', closePopupOverlay);

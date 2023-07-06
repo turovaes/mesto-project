@@ -180,13 +180,78 @@ function openImagePopup(event) {
 const imagePopupCloseBtn = imagePopup.querySelector('.popup__close');
 imagePopupCloseBtn.addEventListener('click', () => closePopup(imagePopup));
 
-
-
-
 const popups = document.querySelectorAll('.popup');
 
 popups.forEach(p => {
   p.style.transition = "visibility 0.5s, opacity 0.5s ease-in-out";
 })
+
+/**
+ * Валидация инпута
+ */
+
+const showInputError = (input, errorBlock, errorMessage) => {
+  input.classList.add('form__input_error');
+  errorBlock.textContent = errorMessage;
+  errorBlock.classList.add('form__input-error_active');
+};
+
+const hideInputError = (input, errorBlock) => {
+  input.classList.remove('form__input_error');
+  errorBlock.textContent = '';
+  errorBlock.classList.remove('form__input-error_active');
+};
+
+
+
+const hasInvalidInput = (allInputs) => {
+  return allInputs.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+}; 
+
+const toggleSubmitButtonState = (submitButton, allInputs) => {
+  if (hasInvalidInput(allInputs)) {
+    submitButton.disabled = true;
+    submitButton.classList.add('form__button_inactive');
+  } else {
+    submitButton.disabled = false;
+    submitButton.classList.remove('form__button_inactive');
+  }
+};
+
+const isInputValid = (formElement, inputElement) => {
+  const formError = formElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
+
+  if (inputElement.validity.patternMismatch) {
+    inputElement.setCustomValidity("Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы.");
+  } else {
+    inputElement.setCustomValidity("");
+  }
+
+  if (!inputElement.validity.valid) {
+    showInputError(inputElement, formError, inputElement.validationMessage);
+  } else {
+    hideInputError(inputElement, formError);
+  }
+};
+
+const allForms = document.querySelectorAll('.form');
+
+allForms.forEach(formElement => {
+  const allInputs = Array.from(formElement.querySelectorAll('.form__input'));
+  const submitButton = formElement.querySelector('.form__button');
+
+  allInputs.forEach(inputElement => {
+    inputElement.addEventListener('input', () => {
+      isInputValid(formElement, inputElement);
+      toggleSubmitButtonState(submitButton, allInputs);
+    });
+  });
+
+  toggleSubmitButtonState(submitButton, allInputs);
+});
+
+
 
 

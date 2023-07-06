@@ -30,9 +30,15 @@
     <div class="popup__container">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
-      <form class="form" name="form">
-        <input class="form__input" type="text" name="name" placeholder="Введите имя">
-        <input class="form__input" type="text" name="vocation" placeholder="Введите профессию">
+      <form class="form" name="form" novalidate>
+        <div class="form__field">
+          <input class="form__input" type="text" name="name" placeholder="Введите имя" minlength="2" maxlength="40" pattern="^[а-яА-ЯЁёa-zA-z\s-]+$" required>
+          <span class="form__input-error" data-input-error="name"></span>
+        </div>
+        <div class="form__field">
+          <input class="form__input" type="text" name="vocation" placeholder="Введите профессию" minlength="2" maxlength="200" pattern="^[а-яА-ЯЁёa-zA-z\s-]+$" required>
+          <span class="form__input-error" data-input-error="vocation"></span>
+        </div>
         <button type="submit" class="form__button">Сохранить</button>
       </form>
     </div>
@@ -42,8 +48,8 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Новое место</h3>
       <form class="form" name="form">
-        <input class="form__input" type="text" name="name" placeholder="Название">
-        <input class="form__input" type="text" name="link" placeholder="Ссылка на картинку">
+        <input class="form__input" type="text" name="name" placeholder="Название" required>
+        <input class="form__input" type="text" name="link" placeholder="Ссылка на картинку" required>
         <button type="submit" class="form__button">Сохранить</button>
       </form>
     </div>

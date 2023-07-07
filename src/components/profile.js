@@ -30,7 +30,7 @@ editPopupForm.addEventListener('submit', saveProfile);
 function editPopupOpened() {
   editPopupNameInput.value = profileName.textContent;
   editPopupJobInput.value = profileVocation.textContent;
-
+  
   openPopup(editPopup);
 }
 

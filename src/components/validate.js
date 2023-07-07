@@ -77,7 +77,10 @@ export function enableValidation({
       });
     });
 
-    formElement.addEventListener('reset', () => clearValidation(formElement, inputErrorClass, errorClass))
+    formElement.addEventListener('reset', () => {
+      clearValidation(formElement, inputErrorClass, errorClass);
+      toggleSubmitButtonState(submitButton, allInputs, inactiveButtonClass);
+    });
 
     toggleSubmitButtonState(submitButton, allInputs, inactiveButtonClass);
   });

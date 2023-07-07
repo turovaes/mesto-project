@@ -48,8 +48,6 @@ function createCard(evt) {
   addPopupNameInput.value = '';
   addPopupLinkInput.value = '';
   
-  addPopupForm.reset()
-
   closePopup(addPopup);
 }
 
@@ -90,7 +88,10 @@ function openImagePopup(event) {
  * Открытие/закрытие попапа создания карточки
  */
 const addButton = document.querySelector('.profile__add-button');
-addButton.addEventListener('click', () => openPopup(addPopup));
+addButton.addEventListener('click', () => {
+  addPopupForm.reset();
+  openPopup(addPopup);
+});
 
 /**
  * Добавленеие дефолтных карточек

@@ -1,21 +1,6 @@
 import { closePopup } from './utils'
 
 /**
- * Закрытие попапа клавишей esc
- */
-
-const closePopupEsc = (evt) => {
-  if (evt.key === 'Escape') {
-    const popup = document.querySelector('.popup_opened');
-    if (popup) {
-      closePopup(popup);
-    }
-  }
-}
-
-window.addEventListener('keydown', closePopupEsc);
-
-/**
  * Закрытие попапа нажатием на оверлей
  */
 

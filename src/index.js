@@ -1,3 +1,5 @@
+import './pages/index.css';
+
 const editPopup = document.getElementById('edit-popup');
 const editPopupForm = editPopup.querySelector('.form');
 const editPopupNameInput = editPopupForm.querySelector('input[name="name"]');
@@ -24,6 +26,15 @@ function openPopup(popup) {
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  clearValidation(popup);
+}
+
+function clearValidation(popup) {
+  const allInputs = popup.querySelectorAll('input');
+  allInputs.forEach(input => {
+    const formError = popup.querySelector(`span[data-input-error="${input.name}"]`);
+    hideInputError(input, formError)
+  })
 }
 
 /**
@@ -190,13 +201,13 @@ popups.forEach(p => {
  * Валидация инпута
  */
 
-const showInputError = (input, errorBlock, errorMessage) => {
+function showInputError(input, errorBlock, errorMessage) {
   input.classList.add('form__input_error');
   errorBlock.textContent = errorMessage;
   errorBlock.classList.add('form__input-error_active');
 };
 
-const hideInputError = (input, errorBlock) => {
+function hideInputError(input, errorBlock) {
   input.classList.remove('form__input_error');
   errorBlock.textContent = '';
   errorBlock.classList.remove('form__input-error_active');

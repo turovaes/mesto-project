@@ -1,4 +1,5 @@
-import { openPopup, closePopup } from './utils'
+import { openPopup, closePopup } from './utils';
+import { getInitialCards } from './api.js';
 
 const cardsList = document.getElementById('elements');
 const cardTemplate = document.getElementById('new-card').content;
@@ -96,36 +97,16 @@ addButton.addEventListener('click', () => {
 /**
  * Добавленеие дефолтных карточек
  */
-export function createDefaultCards() {
-  const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
-
-  initialCards.forEach(card => {
-    const newCard = createCardTemplate(card.name, card.link);
-    cardsList.append(newCard);
-  });
+  
+export function createInitialCards() {
+  getInitialCards()
+    .then((cards) => {
+      cards.forEach(card => {
+        const newCard = createCardTemplate(card.name, card.link);
+        cardsList.append(newCard);
+      });
+    })
+    .catch((err) => {
+      console.log(err); 
+    });
 }

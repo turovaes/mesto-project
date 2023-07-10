@@ -1,12 +1,20 @@
-import { openPopup, closePopup } from './utils'
+import { openPopup, closePopup } from './utils';
+import { getProfile, updateProfile, updateAvatar } from './api.js';
+
 
 const editPopup = document.getElementById('edit-popup');
 const editPopupForm = editPopup.querySelector('.form');
 const editPopupNameInput = editPopupForm.querySelector('input[name="name"]');
 const editPopupJobInput = editPopupForm.querySelector('input[name="vocation"]');
 
+const editAvatarPopup = document.getElementById('edit-avatar-popup');
+const editAvatarPopupForm = editAvatarPopup.querySelector('.form');
+const editAvatarPopupLinkInput = editAvatarPopup.querySelector('input[name="link"]')
+
 const profileName = document.querySelector('.profile__name');
 const profileVocation = document.querySelector('.profile__vocation');
+const profileAvatar = document.querySelector('.profile__avatar');
+const profileAvatarEditIcon = document.querySelector('.profile__avatar-edit-icon');
 
 /**
  * Сохранение изменений профайла
@@ -15,10 +23,17 @@ const profileVocation = document.querySelector('.profile__vocation');
 function saveProfile(evt) {
   evt.preventDefault();
   
-  profileName.textContent = editPopupNameInput.value;
-  profileVocation.textContent = editPopupJobInput.value;
-
-  closePopup(editPopup);
+  updateProfile(editPopupNameInput.value, editPopupJobInput.value)
+    .then((result) => {
+      profileName.textContent = result.name;
+      profileVocation.textContent = result.about;
+    })
+    .catch((err) => {
+      console.log(err); 
+    })
+    .finally(() => {
+      closePopup(editPopup);
+    });
 }
 
 editPopupForm.addEventListener('submit', saveProfile);
@@ -27,7 +42,7 @@ editPopupForm.addEventListener('submit', saveProfile);
  * Открытие/закрытие попапа с профилем
  */
 
-function editPopupOpened() {
+function openEditPopup() {
   editPopupNameInput.value = profileName.textContent;
   editPopupJobInput.value = profileVocation.textContent;
   
@@ -35,4 +50,46 @@ function editPopupOpened() {
 }
 
 const profileEditButton = document.querySelector('.profile__edit-button');
-profileEditButton.addEventListener('click', editPopupOpened);
+profileEditButton.addEventListener('click', openEditPopup);
+
+export const loadProfile = () => {
+  getProfile()
+    .then((result) => {
+      profileName.textContent = result.name;
+      profileVocation.textContent = result.about;
+      profileAvatar.src = result.avatar;
+    })
+    .catch((err) => {
+      console.log(err); 
+    });
+}
+
+/**
+ * Редактирование аватара
+ */
+
+profileAvatarEditIcon.addEventListener('click', () => {
+  editAvatarPopupForm.reset();
+  openPopup(editAvatarPopup);
+});
+
+function saveAvatar(evt) {
+  evt.preventDefault();
+  
+  updateAvatar(editAvatarPopupLinkInput.value)
+    .then((result) => {
+      profileAvatar.src = result.avatar;
+    })
+    .catch((err) => {
+      console.log(err); 
+    })
+    .finally(() => {
+      editAvatarPopupLinkInput.value = '';
+      closePopup(editAvatarPopup);
+    });
+}
+
+editAvatarPopupForm.addEventListener('submit', saveAvatar);
+
+
+

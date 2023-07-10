@@ -1,0 +1,17 @@
+.profile__avatar-edit-icon {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile__avatar-edit-icon:hover,
+.profile__avatar:hover + .profile__avatar-edit-icon {
+  display: flex;
+}

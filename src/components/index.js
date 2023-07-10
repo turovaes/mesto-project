@@ -1,11 +1,12 @@
 import '../pages/index.css';
 
 import {} from './modal';
-import { createDefaultCards } from './card';
-import {} from './profile';
+import { createInitialCards } from './card';
+import { loadProfile } from './profile';
 import { enableValidation } from './validate';
 
-createDefaultCards();
+createInitialCards();
+loadProfile();
 
 enableValidation({
   formSelector: '.form',

@@ -28,3 +28,13 @@ const closePopupEsc = (evt) => {
 export function getProfileId() {
  return document.querySelector('.profile__name').getAttribute('data-id');
 }
+
+/**
+ * Изменение состояния submit кнопки у попапа
+ */
+
+export function setDisabledSubmitPopupButton(popup, isDisabled) {
+  const submitBtn = popup.querySelector('.form__button');
+  submitBtn.textContent = isDisabled ? 'Сохранение...' : 'Сохранить';
+  submitBtn.disabled = isDisabled;
+}

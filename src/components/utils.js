@@ -26,7 +26,7 @@ const closePopupEsc = (evt) => {
  */
 
 export function getProfileId() {
- return document.querySelector('.profile__name').getAttribute('data-id');
+  return document.querySelector('.profile__name').getAttribute('data-id');
 }
 
 /**
@@ -38,3 +38,15 @@ export function setDisabledSubmitPopupButton(popup, isDisabled) {
   submitBtn.textContent = isDisabled ? 'Сохранение...' : 'Сохранить';
   submitBtn.disabled = isDisabled;
 }
+
+/**
+ * Обработка ответа от сервера
+ */
+
+export function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка ${res.status}`);
+}
+

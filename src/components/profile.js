@@ -27,12 +27,12 @@ function saveProfile(evt) {
     .then((result) => {
       profileName.textContent = result.name;
       profileVocation.textContent = result.about;
+      closePopup(editPopup);
     })
     .catch((err) => {
-      console.log(err); 
+      console.log(err);
     })
     .finally(() => {
-      closePopup(editPopup);
       setDisabledSubmitPopupButton(editPopup, false);
     });
 }
@@ -46,7 +46,7 @@ editPopupForm.addEventListener('submit', saveProfile);
 function openEditPopup() {
   editPopupNameInput.value = profileName.textContent;
   editPopupJobInput.value = profileVocation.textContent;
-  
+
   openPopup(editPopup);
 }
 
@@ -62,7 +62,7 @@ export const loadProfile = () => {
       profileName.setAttribute('data-id', result._id);
     })
     .catch((err) => {
-      console.log(err); 
+      console.log(err);
     });
 }
 
@@ -81,13 +81,13 @@ function saveAvatar(evt) {
   updateAvatar(editAvatarPopupLinkInput.value)
     .then((result) => {
       profileAvatar.src = result.avatar;
+      editAvatarPopupForm.reset();
+      closePopup(editAvatarPopup);
     })
     .catch((err) => {
-      console.log(err); 
+      console.log(err);
     })
     .finally(() => {
-      editAvatarPopupLinkInput.value = '';
-      closePopup(editAvatarPopup);
       setDisabledSubmitPopupButton(editAvatarPopup, false);
     });
 }

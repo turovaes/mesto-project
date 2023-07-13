@@ -79,14 +79,13 @@ function createCard(evt) {
     .then((result) => {
       const newCard = createCardTemplate(result);
       cardsList.prepend(newCard);
+      addPopupForm.reset();
+      closePopup(addPopup);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      addPopupNameInput.value = '';
-      addPopupLinkInput.value = '';
-      closePopup(addPopup);
       setDisabledSubmitPopupButton(addPopup, false);
     });
 }
@@ -173,15 +172,12 @@ function deleteCard(evt) {
   deleteCardById(cardId)
     .then(() => {
       document.getElementById(cardId).remove();
+      closePopup(deleteCardPopup);
+      deleteCardPopupBtn.removeAttribute('data-delete-id');
     })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => {
-      closePopup(deleteCardPopup);
-      deleteCardPopupBtn.removeAttribute('data-delete-id');
     });
 }
-
 
 deleteCardPopupBtn.addEventListener('click', deleteCard);

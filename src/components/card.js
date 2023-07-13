@@ -1,4 +1,4 @@
-import { openPopup, closePopup, getProfileId } from './utils';
+import { openPopup, closePopup, getProfileId, setDisabledSubmitPopupButton } from './utils';
 import { getInitialCards, addNewCard, deleteCardById, addLikeToCard, deleteLikeFromCard } from './api.js';
 
 const cardsList = document.getElementById('elements');
@@ -74,7 +74,7 @@ function createCardTemplate({
 
 function createCard(evt) {
   evt.preventDefault();
-
+  setDisabledSubmitPopupButton(addPopup, true);
   addNewCard(addPopupNameInput.value, addPopupLinkInput.value)
     .then((result) => {
       const newCard = createCardTemplate(result);
@@ -87,6 +87,7 @@ function createCard(evt) {
       addPopupNameInput.value = '';
       addPopupLinkInput.value = '';
       closePopup(addPopup);
+      setDisabledSubmitPopupButton(addPopup, false);
     });
 }
 

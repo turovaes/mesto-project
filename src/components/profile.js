@@ -1,4 +1,4 @@
-import { openPopup, closePopup } from './utils';
+import { openPopup, closePopup, setDisabledSubmitPopupButton } from './utils';
 import { getProfile, updateProfile, updateAvatar } from './api.js';
 
 
@@ -22,7 +22,7 @@ const profileAvatarEditIcon = document.querySelector('.profile__avatar-edit-icon
 
 function saveProfile(evt) {
   evt.preventDefault();
-  
+  setDisabledSubmitPopupButton(editPopup, true);
   updateProfile(editPopupNameInput.value, editPopupJobInput.value)
     .then((result) => {
       profileName.textContent = result.name;
@@ -33,6 +33,7 @@ function saveProfile(evt) {
     })
     .finally(() => {
       closePopup(editPopup);
+      setDisabledSubmitPopupButton(editPopup, false);
     });
 }
 
@@ -76,7 +77,7 @@ profileAvatarEditIcon.addEventListener('click', () => {
 
 function saveAvatar(evt) {
   evt.preventDefault();
-  
+  setDisabledSubmitPopupButton(editAvatarPopup, true);
   updateAvatar(editAvatarPopupLinkInput.value)
     .then((result) => {
       profileAvatar.src = result.avatar;
@@ -87,6 +88,7 @@ function saveAvatar(evt) {
     .finally(() => {
       editAvatarPopupLinkInput.value = '';
       closePopup(editAvatarPopup);
+      setDisabledSubmitPopupButton(editAvatarPopup, false);
     });
 }
 

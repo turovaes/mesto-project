@@ -27,7 +27,7 @@ const hasInvalidInput = (allInputs) => {
   return allInputs.some((inputElement) => {
     return !inputElement.validity.valid;
   })
-}; 
+};
 
 const toggleSubmitButtonState = (submitButton, allInputs, inactiveButtonClass) => {
   if (hasInvalidInput(allInputs)) {
@@ -58,7 +58,7 @@ const isInputValid = (formElement, inputElement, inputErrorClass, errorClass) =>
 
 export function enableValidation({
   formSelector,
-  inputSelector, 
+  inputSelector,
   submitButtonSelector,
   inactiveButtonClass,
   inputErrorClass,
@@ -69,7 +69,7 @@ export function enableValidation({
   allForms.forEach(formElement => {
     const allInputs = Array.from(formElement.querySelectorAll(inputSelector));
     const submitButton = formElement.querySelector(submitButtonSelector);
-    
+
     allInputs.forEach(inputElement => {
       inputElement.addEventListener('input', () => {
         isInputValid(formElement, inputElement, inputErrorClass, errorClass);

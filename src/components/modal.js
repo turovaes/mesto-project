@@ -7,7 +7,7 @@ import { closePopup } from './utils'
 const closePopupOverlay = (evt) => {
   if (evt.currentTarget === evt.target) {
     closePopup(evt.currentTarget);
-  } 
+  }
 }
 
 /**

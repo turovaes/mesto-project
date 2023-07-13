@@ -5,8 +5,7 @@ import { createInitialCards } from './card';
 import { loadProfile } from './profile';
 import { enableValidation } from './validate';
 
-createInitialCards();
-loadProfile();
+loadProfile().then(createInitialCards);
 
 enableValidation({
   formSelector: '.form',

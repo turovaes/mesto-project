@@ -53,11 +53,12 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 profileEditButton.addEventListener('click', openEditPopup);
 
 export const loadProfile = () => {
-  getProfile()
+  return getProfile()
     .then((result) => {
       profileName.textContent = result.name;
       profileVocation.textContent = result.about;
       profileAvatar.src = result.avatar;
+      profileName.setAttribute('data-id', result._id);
     })
     .catch((err) => {
       console.log(err); 

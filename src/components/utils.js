@@ -20,3 +20,11 @@ const closePopupEsc = (evt) => {
     }
   }
 }
+
+/**
+ * Получение id пользователя
+ */
+
+export function getProfileId() {
+ return document.querySelector('.profile__name').getAttribute('data-id');
+}

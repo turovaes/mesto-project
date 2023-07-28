@@ -1,5 +1,5 @@
 import { openPopup, closePopup, getProfileId, setDisabledSubmitPopupButton } from './utils';
-import { getInitialCards, addNewCard, deleteCardById, addLikeToCard, deleteLikeFromCard } from './api.js';
+import { api } from './api.js';
 
 const cardsList = document.getElementById('elements');
 const cardTemplate = document.getElementById('new-card').content;
@@ -75,7 +75,7 @@ function createCardTemplate({
 function createCard(evt) {
   evt.preventDefault();
   setDisabledSubmitPopupButton(addPopup, true);
-  addNewCard(addPopupNameInput.value, addPopupLinkInput.value)
+  api.addNewCard(addPopupNameInput.value, addPopupLinkInput.value)
     .then((result) => {
       const newCard = createCardTemplate(result);
       cardsList.prepend(newCard);
@@ -97,7 +97,7 @@ addPopupForm.addEventListener('submit', createCard);
  */
 
 function addLike(likeBtn, likeCount, cardId) {
-  addLikeToCard(cardId)
+  api.addLikeToCard(cardId)
     .then((result) => {
       likeBtn.classList.add('element__like-button_active');
       likeCount.textContent = result.likes.length;
@@ -112,7 +112,7 @@ function addLike(likeBtn, likeCount, cardId) {
  */
 
 function deleteLike(likeBtn, likeCount, cardId) {
-  deleteLikeFromCard(cardId)
+  api.deleteLikeFromCard(cardId)
     .then((result) => {
       likeBtn.classList.remove('element__like-button_active');
       likeCount.textContent = result.likes.length;
@@ -151,7 +151,7 @@ addButton.addEventListener('click', () => {
  */
 
 export function createInitialCards() {
-  return getInitialCards()
+  return api.getInitialCards()
     .then((cards) => {
       cards.forEach(card => {
         const newCard = createCardTemplate(card);
@@ -169,7 +169,7 @@ export function createInitialCards() {
 
 function deleteCard(evt) {
   const cardId = evt.target.getAttribute('data-delete-id');
-  deleteCardById(cardId)
+  api.deleteCardById(cardId)
     .then(() => {
       document.getElementById(cardId).remove();
       closePopup(deleteCardPopup);

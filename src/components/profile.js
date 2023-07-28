@@ -1,5 +1,5 @@
 import { openPopup, closePopup, setDisabledSubmitPopupButton } from './utils';
-import { getProfile, updateProfile, updateAvatar } from './api.js';
+import { api } from './api.js';
 
 
 const editPopup = document.getElementById('edit-popup');
@@ -23,7 +23,7 @@ const profileAvatarEditIcon = document.querySelector('.profile__avatar-edit-icon
 function saveProfile(evt) {
   evt.preventDefault();
   setDisabledSubmitPopupButton(editPopup, true);
-  updateProfile(editPopupNameInput.value, editPopupJobInput.value)
+  api.updateProfile(editPopupNameInput.value, editPopupJobInput.value)
     .then((result) => {
       profileName.textContent = result.name;
       profileVocation.textContent = result.about;
@@ -54,7 +54,7 @@ const profileEditButton = document.querySelector('.profile__edit-button');
 profileEditButton.addEventListener('click', openEditPopup);
 
 export const loadProfile = () => {
-  return getProfile()
+  return api.getProfile()
     .then((result) => {
       profileName.textContent = result.name;
       profileVocation.textContent = result.about;
@@ -78,7 +78,7 @@ profileAvatarEditIcon.addEventListener('click', () => {
 function saveAvatar(evt) {
   evt.preventDefault();
   setDisabledSubmitPopupButton(editAvatarPopup, true);
-  updateAvatar(editAvatarPopupLinkInput.value)
+  api.updateAvatar(editAvatarPopupLinkInput.value)
     .then((result) => {
       profileAvatar.src = result.avatar;
       editAvatarPopupForm.reset();

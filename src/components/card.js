@@ -1,5 +1,6 @@
 import { openPopup, closePopup, getProfileId, setDisabledSubmitPopupButton } from './utils';
 import { api } from './api.js';
+import { Popup, PopupWithImage } from './popup';
 
 const cardsList = document.getElementById('elements');
 const cardTemplate = document.getElementById('new-card').content;
@@ -9,12 +10,12 @@ const addPopupForm = addPopup.querySelector('.form');
 const addPopupNameInput = addPopupForm.querySelector('input[name="name"]');
 const addPopupLinkInput = addPopupForm.querySelector('input[name="link"]');
 
-const imagePopup = document.getElementById('image-popup');
-const imagePopupImage = imagePopup.querySelector('.popup__image');
-const imagePopupCaption = imagePopup.querySelector('.popup__image-caption');
+const imagePopup = new PopupWithImage('#image-popup');
+imagePopup.setEventListeners();
 
-const deleteCardPopup = document.getElementById('delete-card-popup');
-const deleteCardPopupBtn = deleteCardPopup.querySelector('.form__button');
+const deleteCardPopup = new Popup('#delete-card-popup');
+deleteCardPopup.setEventListeners();
+const deleteCardPopupBtn = deleteCardPopup.popup.querySelector('.form__button');
 
 /**
  * Создание шаблона карточки
@@ -41,7 +42,7 @@ function createCardTemplate({
 
   if (getProfileId() === owner._id) {
     deleteBtn.addEventListener('click', () => {
-      openPopup(deleteCardPopup);
+      deleteCardPopup.open();
       deleteCardPopupBtn.setAttribute('data-delete-id', _id);
     });
   } else {
@@ -130,11 +131,7 @@ function openImagePopup(event) {
   const imageLink = event.target.getAttribute('src');
   const imageName = event.target.getAttribute('alt');
 
-  imagePopupImage.setAttribute('src', imageLink);
-  imagePopupImage.setAttribute('alt', imageName);
-  imagePopupCaption.textContent = imageName;
-
-  openPopup(imagePopup);
+  imagePopup.open(imageLink, imageName);
 }
 
 /**
@@ -172,7 +169,7 @@ function deleteCard(evt) {
   api.deleteCardById(cardId)
     .then(() => {
       document.getElementById(cardId).remove();
-      closePopup(deleteCardPopup);
+      deleteCardPopup.close();
       deleteCardPopupBtn.removeAttribute('data-delete-id');
     })
     .catch((err) => {

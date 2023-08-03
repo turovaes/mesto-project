@@ -1,58 +1,51 @@
 export class FormValidator { 
-  constructor (validationSettings, formElement){
-    this._formElement = formElement;
+  constructor (validationSettings, rootElement) {
+    this._rootElement = rootElement;
     this._formSelector = validationSettings.formSelector;
     this._inputSelector = validationSettings.inputSelector;
     this._submitButtonSelector = validationSettings.submitButtonSelector;
     this._inactiveButtonClass = validationSettings.inactiveButtonClass;
     this._inputErrorClass = validationSettings.inputErrorClass;
     this._errorClass = validationSettings.errorClass;
-    
   }
 
-  _clearValidation(formElement, inputErrorClass, errorClass) {
-    const allInputs = formElement.querySelectorAll('input');
-  
-    allInputs.forEach(inputSelector => {
-      const formError = formElement.querySelector(`span[data-input-error="${inputSelector.name}"]`);
-      this._hideInputError(inputSelector, formError, inputErrorClass, errorClass)
+  _clearValidation(formElement) {  
+    this.allInputs.forEach(inputElement => {
+      const formError = formElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
+      this._hideInputError(inputElement, formError)
     })
   }
   
-  /**
-   * Валидация инпута
-   */
-  
-  _showInputError(inputSelector, errorBlock, errorMessage, inputErrorClass, errorClass) {
-    inputSelector.classList.add(inputErrorClass);
+  _showInputError(inputSelector, errorBlock, errorMessage) {
+    inputSelector.classList.add(this._inputErrorClass);
     errorBlock.textContent = errorMessage;
-    errorBlock.classList.add(errorClass);
+    errorBlock.classList.add(this._errorClass);
   };
   
-  _hideInputError(inputSelector, errorBlock, inputErrorClass, errorClass) {
-    inputSelector.classList.remove(inputErrorClass);
+  _hideInputError(inputSelector, errorBlock) {
+    inputSelector.classList.remove(this._inputErrorClass);
     errorBlock.textContent = '';
-    errorBlock.classList.remove(errorClass);
+    errorBlock.classList.remove(this._errorClass);
   };
   
-  _hasInvalidInput = (allInputs) => {
-    return allInputs.some((inputElement) => {
+  _hasInvalidInput = () => {
+    return this.allInputs.some((inputElement) => {
       return !inputElement.validity.valid;
     })
   };
   
-  _toggleSubmitButtonState = (submitButton, allInputs, inactiveButtonClass) => {
-    if (this._hasInvalidInput(allInputs)) {
-      submitButton.disabled = true;
-      submitButton.classList.add(inactiveButtonClass);
+  _toggleSubmitButtonState = () => {
+    if (this._hasInvalidInput()) {
+      this.submitButton.disabled = true;
+      this.submitButton.classList.add(this._inactiveButtonClass);
     } else {
-      submitButton.disabled = false;
-      submitButton.classList.remove(inactiveButtonClass);
+      this.submitButton.disabled = false;
+      this.submitButton.classList.remove(this._inactiveButtonClass);
     }
   };
   
-  _isInputValid = (formElement, inputElement, inputErrorClass, errorClass) => {
-    const formError = formElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
+  _isInputValid = (inputElement) => {
+    const formError = this.formElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
     
     if (inputElement.validity.patternMismatch) {
       inputElement.setCustomValidity("Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы.");
@@ -61,31 +54,29 @@ export class FormValidator {
     }
   
     if (!inputElement.validity.valid) {
-      this._showInputError(inputElement, formError, inputElement.validationMessage, inputErrorClass, errorClass);
+      this._showInputError(inputElement, formError, inputElement.validationMessage);
     } else {
-      this._hideInputError(inputElement, formError, inputErrorClass, errorClass);
+      this._hideInputError(inputElement, formError);
     }
   };
   
-  
   enableValidation() {
-    const allForms = document.querySelectorAll(this._formSelector);
-    allForms.forEach(formElement => {
-      const allInputs = Array.from(formElement.querySelectorAll(this._inputSelector));
-      const submitButton = formElement.querySelector(this._submitButtonSelector);
-      allInputs.forEach(inputElement => {
-        inputElement.addEventListener('input', () => {
-          this._isInputValid(formElement, inputElement, this._inputErrorClass, this._errorClass);
-          this._toggleSubmitButtonState(submitButton, allInputs, this._inactiveButtonClass);
-        });
+    this.formElement = this._rootElement.querySelector(this._formSelector);
+    this.allInputs = Array.from(this.formElement.querySelectorAll(this._inputSelector));
+    this.submitButton = this.formElement.querySelector(this._submitButtonSelector);
+
+    this.allInputs.forEach(inputElement => {
+      inputElement.addEventListener('input', () => {
+        this._isInputValid.bind(this)(inputElement);
+        this._toggleSubmitButtonState.bind(this)();
       });
-  
-      formElement.addEventListener('reset', () => {
-        this._clearValidation(formElement, this._inputErrorClass, this._errorClass);
-        this._toggleSubmitButtonState(submitButton, allInputs, this._inactiveButtonClass);
-      });
-  
-      this._toggleSubmitButtonState(submitButton, allInputs, this._inactiveButtonClass);
     });
+
+    this.formElement.addEventListener('reset', () => {
+      this._clearValidation.bind(this)();
+      this._toggleSubmitButtonState.bind(this)();
+    });
+
+    this._toggleSubmitButtonState();
   }
 }

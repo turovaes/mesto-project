@@ -52,7 +52,7 @@ const handlerEditImage = async () => {
     }
 }
 
-const editImage = new PopupWithForm('#edit-popup')
+// const editImage = new PopupWithForm('#edit-popup')
 
 (async () => {
     const user = await api.getProfile();
@@ -71,7 +71,7 @@ const editImage = new PopupWithForm('#edit-popup')
                 const newCard = new Card(
                     item,
                     "#new-card",
-                    imagePopup.open,
+                    handleCardClick,
                     user._id
                 );
                 cardList.append(newCard.getCardElement());

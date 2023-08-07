@@ -1,5 +1,5 @@
 import { openPopup, closePopup, setDisabledSubmitPopupButton } from './utils';
-import { api } from './api.js';
+import { api } from './Api.js';
 
 
 const editPopup = document.getElementById('edit-popup');

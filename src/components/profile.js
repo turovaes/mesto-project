@@ -22,19 +22,19 @@ const profileAvatarEditIcon = document.querySelector('.profile__avatar-edit-icon
 
 function saveProfile(evt) {
   evt.preventDefault();
-  setDisabledSubmitPopupButton(editPopup, true);
-  api.updateProfile(editPopupNameInput.value, editPopupJobInput.value)
-    .then((result) => {
-      profileName.textContent = result.name;
-      profileVocation.textContent = result.about;
-      closePopup(editPopup);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setDisabledSubmitPopupButton(editPopup, false);
-    });
+  // setDisabledSubmitPopupButton(editPopup, true);
+  // api.updateProfile(editPopupNameInput.value, editPopupJobInput.value)
+  //   .then((result) => {
+  //     profileName.textContent = result.name;
+  //     profileVocation.textContent = result.about;
+  //     closePopup(editPopup);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  //   .finally(() => {
+  //     setDisabledSubmitPopupButton(editPopup, false);
+  //   });
 }
 
 editPopupForm.addEventListener('submit', saveProfile);
@@ -76,20 +76,20 @@ profileAvatarEditIcon.addEventListener('click', () => {
 });
 
 function saveAvatar(evt) {
-  evt.preventDefault();
-  setDisabledSubmitPopupButton(editAvatarPopup, true);
-  api.updateAvatar(editAvatarPopupLinkInput.value)
-    .then((result) => {
-      profileAvatar.src = result.avatar;
-      editAvatarPopupForm.reset();
-      closePopup(editAvatarPopup);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setDisabledSubmitPopupButton(editAvatarPopup, false);
-    });
+  // evt.preventDefault();
+  // setDisabledSubmitPopupButton(editAvatarPopup, true);
+  // api.updateAvatar(editAvatarPopupLinkInput.value)
+  //   .then((result) => {
+  //     profileAvatar.src = result.avatar;
+  //     editAvatarPopupForm.reset();
+  //     closePopup(editAvatarPopup);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  //   .finally(() => {
+  //     setDisabledSubmitPopupButton(editAvatarPopup, false);
+  //   });
 }
 
 editAvatarPopupForm.addEventListener('submit', saveAvatar);

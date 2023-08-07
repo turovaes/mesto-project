@@ -1,7 +1,6 @@
 import "../pages/index.css";
 
 import { Card } from "./card";
-import { loadProfile } from "./profile";
 import { FormValidator } from "./FormValidator";
 import { api } from "./Api";
 import { PopupWithImage } from "./PopupWithImage";
@@ -44,15 +43,42 @@ const userCreate = new UserInfo({
     userAvatarSelector: ".profile__avatar",
 });
 
-const handlerEditImage = async () => {
+const handlerEditImage = async (data) => {
     try {
-        console.log('123123')
+        await api.updateAvatar(data.link);
+        editImage.close();
     } catch (e) {
-        console.error(e)
+        console.error(e);
     }
-}
+};
 
-// const editImage = new PopupWithForm('#edit-popup')
+const editImage = new PopupWithForm("#edit-avatar-popup", handlerEditImage);
+editImage.setEventListeners("#edit-avatar-popup");
+
+const handlerEditProfile = async (data) => {
+    try {
+        const { name, vocation: about } = data;
+        await api.updateProfile(name, about);
+        editProfile.close();
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+const editProfile = new PopupWithForm("#edit-popup", handlerEditProfile);
+editProfile.setEventListeners("#edit-popup");
+
+const handlerAddImages = async (data) => {
+    try {
+        await api.addNewCard(data);
+        addImages.close();
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+const addImages = new PopupWithForm("#add-popup", handlerAddImages);
+addImages.setEventListeners("#add-popup");
 
 (async () => {
     const user = await api.getProfile();

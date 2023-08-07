@@ -9,7 +9,7 @@ export class FormValidator {
     this._errorClass = validationSettings.errorClass;
   }
 
-  _clearValidation(formElement) {  
+  _clearValidation(formElement) {
     this.allInputs.forEach(inputElement => {
       const formError = formElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
       this._hideInputError(inputElement, formError)
@@ -45,7 +45,7 @@ export class FormValidator {
   };
   
   _isInputValid = (inputElement) => {
-    const formError = this.formElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
+    const formError = this._rootElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
     
     if (inputElement.validity.patternMismatch) {
       inputElement.setCustomValidity("Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы.");
@@ -61,9 +61,8 @@ export class FormValidator {
   };
   
   enableValidation() {
-    this.formElement = this._rootElement.querySelector(this._formSelector);
-    this.allInputs = Array.from(this.formElement.querySelectorAll(this._inputSelector));
-    this.submitButton = this.formElement.querySelector(this._submitButtonSelector);
+    this.allInputs = Array.from(this._rootElement.querySelectorAll(this._inputSelector));
+    this.submitButton = this._rootElement.querySelector(this._submitButtonSelector);
 
     this.allInputs.forEach(inputElement => {
       inputElement.addEventListener('input', () => {
@@ -72,8 +71,8 @@ export class FormValidator {
       });
     });
 
-    this.formElement.addEventListener('reset', () => {
-      this._clearValidation.bind(this)();
+    this._rootElement.addEventListener('reset', () => {
+      this._clearValidation(this._rootElement);
       this._toggleSubmitButtonState.bind(this)();
     });
 

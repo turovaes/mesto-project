@@ -4,7 +4,7 @@ import { Card } from './card';
 import { loadProfile } from './profile';
 import { FormValidator } from './FormValidator';
 import { api } from './api'
-import { PopupWithImage } from './popup';
+import { PopupWithImage } from './PopupWithImage';
 
 const formClassList = {
   formSelector: '.form',
@@ -29,6 +29,8 @@ addPopupValidate.enableValidation();
 const imagePopup = new PopupWithImage('#image-popup');
 imagePopup.setEventListeners();
 
+const cardList = document.querySelector('.elements');
+
 (async () => {
   const user = await api.getProfile();
 
@@ -37,7 +39,6 @@ imagePopup.setEventListeners();
       console.error(error);
       return [];
     });
-    const cardList = document.querySelector('.elements');
 
   cards.forEach((cardData) => {
     const newCard = new Card(cardData, '#new-card', imagePopup.open, user._id);

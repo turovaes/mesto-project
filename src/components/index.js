@@ -34,6 +34,7 @@ addPopupValidate.enableValidation();
 
 const imagePopup = new PopupWithImage("#image-popup");
 imagePopup.setEventListeners();
+const handleCardClick = (link, name) => imagePopup.open(link, name);
 
 const cardList = document.querySelector(".elements");
 

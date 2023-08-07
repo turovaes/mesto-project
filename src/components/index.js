@@ -28,6 +28,7 @@ addPopupValidate.enableValidation();
 
 const imagePopup = new PopupWithImage('#image-popup');
 imagePopup.setEventListeners();
+const handleCardClick = (link, name) => imagePopup.open(link, name);
 
 const cardList = document.querySelector('.elements');
 
@@ -41,7 +42,7 @@ const cardList = document.querySelector('.elements');
     });
 
   cards.forEach((cardData) => {
-    const newCard = new Card(cardData, '#new-card', imagePopup.open, user._id);
+    const newCard = new Card(cardData, '#new-card', handleCardClick, user._id);
     cardList.append(newCard.getCardElement());
   });
 })();

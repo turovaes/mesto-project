@@ -1,6 +1,6 @@
 import '../pages/index.css';
 
-import { Card } from './card';
+import { Card } from './Card';
 import { FormValidator } from './FormValidator';
 import { api } from './api'
 import { PopupWithImage } from './PopupWithImage';

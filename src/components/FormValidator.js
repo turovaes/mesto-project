@@ -9,9 +9,9 @@ export class FormValidator {
     this._errorClass = validationSettings.errorClass;
   }
 
-  _clearValidation(formElement) {  
+  _clearValidation() {  
     this.allInputs.forEach(inputElement => {
-      const formError = formElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
+      const formError = this.formElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
       this._hideInputError(inputElement, formError)
     })
   }

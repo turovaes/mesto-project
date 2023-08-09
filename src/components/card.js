@@ -1,5 +1,5 @@
-import { api } from './Api.js';
-import { Popup } from './popup';
+import { api } from './api.js';
+import { Popup } from './Popup';
 
 const deleteCardPopup = new Popup('#delete-card-popup');
 deleteCardPopup.setEventListeners();

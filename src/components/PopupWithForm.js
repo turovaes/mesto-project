@@ -1,4 +1,4 @@
-import { Popup } from "./popup";
+import { Popup } from "./Popup";
 
 export class PopupWithForm extends Popup {
     constructor(selector, callbackSubmitForm) {
@@ -21,6 +21,7 @@ export class PopupWithForm extends Popup {
         this._form.addEventListener("submit", (evt) => {
             evt.preventDefault();
             this._callbackSubmitForm(this._getInputValues());
+            this.close();
         });
     }
 

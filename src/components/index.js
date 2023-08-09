@@ -1,10 +1,11 @@
 import '../pages/index.css';
 
-import { Card } from './card';
-import { loadProfile } from './profile';
+import { Card } from './Card';
 import { FormValidator } from './FormValidator';
 import { api } from './api'
 import { PopupWithImage } from './PopupWithImage';
+import { PopupWithForm } from './PopupWithForm';
+import { UserInfo } from './UserInfo';
 
 const formClassList = {
   formSelector: '.form',
@@ -15,25 +16,51 @@ const formClassList = {
   errorClass: 'form__input-error_active'
 }
 
-const editPopupForm = document.querySelector('#edit-popup');
-const editAvatarPopupForm = document.querySelector('#edit-avatar-popup');
 const addPopupForm = document.querySelector('#add-popup');
-
-const editPopupValidate = new FormValidator(formClassList, editPopupForm);
-editPopupValidate.enableValidation();
-const editAvatarPopupValidate = new FormValidator(formClassList, editAvatarPopupForm);
-editAvatarPopupValidate.enableValidation();
 const addPopupValidate = new FormValidator(formClassList, addPopupForm);
 addPopupValidate.enableValidation();
 
-const imagePopup = new PopupWithImage('#image-popup');
-imagePopup.setEventListeners();
-const handleCardClick = (link, name) => imagePopup.open(link, name);
-
 const cardList = document.querySelector('.elements');
 
+const imagePopup = new PopupWithImage('#image-popup');
+imagePopup.setEventListeners();
+
+const user = new UserInfo({
+  userNameSelector: '.profile__name',
+  userInfoSelector: '.profile__vocation',
+  userAvatarSelector: '.profile__avatar'
+});
+
+const handleCardClick = (link, name) => {
+  imagePopup.open(link, name)
+};
+
+const handleSaveProfile = ({ name, about }, closeCallback) => {
+  api.updateProfile(name, about)
+    .then((result) => {
+      user.setUserInfo(result);
+      closeCallback();
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+}
+
+const handleSaveAvatar = ({ avatar }, closeCallback) => {
+  api.updateAvatar(avatar)
+  .then((result) => {
+    user.setUserInfo(result);
+    closeCallback();
+  })
+  .catch((err) => {
+    console.error(err);
+  })
+}
+
 (async () => {
-  const user = await api.getProfile();
+  const profile = await api.getProfile();
+
+  user.setUserInfo(profile);
 
   const cards = await api.getInitialCards()
     .catch((error) => {
@@ -42,7 +69,30 @@ const cardList = document.querySelector('.elements');
     });
 
   cards.forEach((cardData) => {
-    const newCard = new Card(cardData, '#new-card', handleCardClick, user._id);
+    const newCard = new Card(cardData, '#new-card', handleCardClick, profile._id);
     cardList.append(newCard.getCardElement());
   });
+
+  /**
+   * Изменение информации о пользователе
+   */
+  const editPopup = new PopupWithForm('#edit-popup', handleSaveProfile);
+  const editPopupForm = new FormValidator(formClassList, editPopup.popup);
+  editPopupForm.enableValidation();
+  editPopup.setEventListeners(editPopupForm);
+  document.querySelector('.profile__edit-button').addEventListener('click', () => {
+    const { name, about } = user.getUserInfo(); 
+    editPopupForm.formElement.querySelector('input[name="name"]').value = name;
+    editPopupForm.formElement.querySelector('input[name="about"]').value = about;
+    editPopup.open();
+  } );
+
+  /**
+   * Изменение аватарки пользователя
+   */
+  const avatarPopup = new PopupWithForm('#edit-avatar-popup', handleSaveAvatar);
+  const avatarPopupForm = new FormValidator(formClassList, avatarPopup.popup);
+  avatarPopupForm.enableValidation();
+  avatarPopup.setEventListeners(avatarPopupForm);
+  document.querySelector('.profile__avatar-edit-icon').addEventListener('click', () => avatarPopup.open());
 })();

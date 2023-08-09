@@ -16,13 +16,6 @@ const formClassList = {
     errorClass: "form__input-error_active",
 };
 
-const handleCardClick = (link, name) => imagePopup.open(link, name);
-const addPopupForm = document.querySelector("#add-popup");
-const addPopupValidate = new FormValidator(formClassList, addPopupForm);
-addPopupValidate.enableValidation();
-
-const cardList = document.querySelector(".elements");
-
 const imagePopup = new PopupWithImage("#image-popup");
 imagePopup.setEventListeners();
 
@@ -32,33 +25,30 @@ const userCreate = new UserInfo({
     userAvatarSelector: ".profile__avatar",
 });
 
-const handlerEditImage = async (data) => {
-    try {
-        const {avatar} = data
-        await api.updateAvatar(avatar);
-        userCreate.setUserInfo({avatar})
-    } catch (e) {
-        console.error(e);
-    }
+const handleCardClick = (link, name) => {
+    imagePopup.open(link, name);
 };
 
-const handlerEditProfile = async (data) => {
-    try {
-        const { name, about } = data;
-        await api.updateProfile(name, about);
-        userCreate.setUserInfo({name, about})
-    } catch (e) {
-        console.error(e);
-    }
+const handlerEditImage = ({ avatar }, closePopup) => {
+    return api.updateAvatar(avatar)
+        .then((result) => {
+            userCreate.setUserInfo(result);
+            closePopup();
+        })
+        .catch((e) => {
+            console.error(e);
+        });
 };
 
-const handlerAddImages = async (data) => {
-    try {
-        const {name, link} = data;
-        await api.addNewCard(name, link);
-    } catch (e) {
-        console.error(e);
-    }
+const handlerEditProfile = ({ name, about }, closePopup) => {
+    return api.updateProfile(name, about)
+        .then((result) => {
+            userCreate.setUserInfo(result);
+            closePopup();
+        })
+        .catch((e) => {
+            console.error(e);
+        });
 };
 
 (async () => {
@@ -69,24 +59,45 @@ const handlerAddImages = async (data) => {
         console.error(error);
         return [];
     });
-    const renderInitialCards = new Section(
+
+    const section = new Section(
         {
             items: cards,
-            renderer: (item) => {
+            renderer: (item, addCard) => {
                 const newCard = new Card(
                     item,
                     "#new-card",
                     handleCardClick,
                     user._id
                 );
-                cardList.append(newCard.getCardElement());
+                addCard(newCard.getCardElement());
             },
         },
         "#elements"
     );
 
-    renderInitialCards.renderer();
+    section.renderer();
 
+    const handlerAddImages = ({ name, link }, closePopup) => {
+      return api.addNewCard(name, link)
+          .then((result) => {
+              const card = new Card(
+                  result,
+                  "#new-card",
+                  handleCardClick,
+                  user._id
+              );
+              section.addItem(card.getCardElement());
+              closePopup();
+          })
+          .catch((e) => {
+              console.error(e);
+          });
+  };
+
+    /**
+     * Изменение профиля пользователя
+     */
     const editPopup = new PopupWithForm("#edit-popup", handlerEditProfile);
     const editPopupForm = new FormValidator(formClassList, editPopup.popup);
     editPopupForm.enableValidation();
@@ -119,7 +130,7 @@ const handlerAddImages = async (data) => {
         .addEventListener("click", () => avatarPopup.open());
 
      /**
-     * Изменение аватарки пользователя
+     * Добавление карточки
      */
      const addCardPopup = new PopupWithForm(
         "#add-popup",

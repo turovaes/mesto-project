@@ -28,10 +28,9 @@ export class Card {
 
   _setDeleteBtn(profileId) {
     const deleteBtn = this.cardElement.querySelector('.element__delete-button');
-    deleteCardPopup.popup.querySelector('.form__button').addEventListener('click', () => this._deleteCard.bind(this)());
 
     if (profileId === this.data.owner._id) {
-      deleteBtn.addEventListener('click', () => deleteCardPopup.open());
+      deleteBtn.addEventListener('click', this._openDeletePopup.bind(this));
     } else {
       deleteBtn.remove();
     }
@@ -78,6 +77,11 @@ export class Card {
       .catch((err) => {
         console.error(err);
       })
+  }
+
+  _openDeletePopup() {
+    deleteCardPopup.popup.querySelector('.form__button').addEventListener('click', () => this._deleteCard.bind(this)());
+    deleteCardPopup.open();
   }
 
   _deleteCard() {

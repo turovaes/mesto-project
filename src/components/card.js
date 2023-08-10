@@ -1,46 +1,48 @@
-import { api } from './api.js';
-import { Popup } from './Popup';
-
-const deleteCardPopup = new Popup('#delete-card-popup');
-deleteCardPopup.setEventListeners();
-
 export class Card {
-  constructor(initialData, selector, handleCardClick, profileId) {
-    const cardTemplate = document.querySelector(selector).content;
-    this.cardElement = cardTemplate.querySelector('.element').cloneNode(true);
+  constructor(initialData, selector, profileId, { handleCardClick, handleOpenDeletePopup, handleDeleteCard, handleLikeCard, handleDislikeCard }) {
     this.data = initialData;
-    this._setContent(handleCardClick);
+    this._callbacks = {
+      handleCardClick,
+      handleOpenDeletePopup,
+      handleDeleteCard,
+      handleLikeCard,
+      handleDislikeCard
+    };
+
+    const cardTemplate = document.querySelector(selector).content;
+    this._cardElement = cardTemplate.querySelector('.element').cloneNode(true);
+    this._setContent();
     this._setDeleteBtn(profileId);
     this._setLikeBtn(profileId);
   }
 
   getCardElement() {
-    return this.cardElement;
+    return this._cardElement;
   }
 
-  _setContent(handleCardClick) {
-    const image = this.cardElement.querySelector('.element__image');
+  _setContent() {
+    const image = this._cardElement.querySelector('.element__image');
     image.setAttribute('src', this.data.link);
     image.setAttribute('alt', this.data.name);
-    image.addEventListener('click', () => handleCardClick(this.data.link, this.data.name));
-    this.cardElement.querySelector('.element__title').textContent = this.data.name;
+    image.addEventListener('click', () => this._callbacks.handleCardClick(this.data.link, this.data.name));
+    this._cardElement.querySelector('.element__title').textContent = this.data.name;
   }
 
   _setDeleteBtn(profileId) {
-    const deleteBtn = this.cardElement.querySelector('.element__delete-button');
+    const deleteBtn = this._cardElement.querySelector('.element__delete-button');
 
     if (profileId === this.data.owner._id) {
-      deleteBtn.addEventListener('click', this._openDeletePopup.bind(this));
+      deleteBtn.addEventListener('click', () => this._callbacks.handleOpenDeletePopup(() => this._deleteCard()));
     } else {
       deleteBtn.remove();
     }
   }
 
   _setLikeBtn(profileId) {
-    this.likeBtn = this.cardElement.querySelector('.element__like-button');
-    this.likeCount = this.cardElement.querySelector('.element__like-count');
+    this.likeBtn = this._cardElement.querySelector('.element__like-button');
+    this.likeCount = this._cardElement.querySelector('.element__like-count');
 
-    this.likeBtn.addEventListener('click', () => this._toggleLike.bind(this)());
+    this.likeBtn.addEventListener('click', () => this._toggleLike());
 
     if (this.data.likes.some(like => like._id === profileId)) {
       this.likeBtn.classList.add('element__like-button_active');
@@ -58,41 +60,32 @@ export class Card {
   }
 
   _addLike() {
-    api.addLikeToCard(this.data._id)
-      .then((result) => {
+    this._callbacks.handleLikeCard(
+      this.data._id,
+      (result) => {
         this.likeBtn.classList.add('element__like-button_active');
         this.likeCount.textContent = result.likes.length;
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+      }
+    )
   }
 
   _deleteLike() {
-    api.deleteLikeFromCard(this.data._id)
-      .then((result) => {
+    this._callbacks.handleDislikeCard(
+      this.data._id,
+      (result) => {
         this.likeBtn.classList.remove('element__like-button_active');
         this.likeCount.textContent = result.likes.length;
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-  }
-
-  _openDeletePopup() {
-    deleteCardPopup.popup.querySelector('.form__button').addEventListener('click', () => this._deleteCard.bind(this)());
-    deleteCardPopup.open();
+      }
+    )
   }
 
   _deleteCard() {
-    api.deleteCardById(this.data._id)
-      .then(() => {
-        this.cardElement.remove();
-        deleteCardPopup.close();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    this._callbacks.handleDeleteCard(
+      this.data._id,
+      () => {
+        this._cardElement.remove();
+      }
+    );
   }
 }
 

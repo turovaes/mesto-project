@@ -6,6 +6,10 @@ export class UserInfo {
     this._userAvatar = document.querySelector(userAvatarSelector);
   }
 
+  getUserId() {
+    return this.id;
+  }
+
   getUserInfo() {
     return {
       id: this.id,

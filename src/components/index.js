@@ -123,7 +123,7 @@ function createCardElement(card) {
     const newCard = new Card(
         card,
         "#new-card",
-        userInfo.getUserInfo().id,
+        userInfo.getUserId(),
         {
             handleCardClick,
             handleDeleteCard,

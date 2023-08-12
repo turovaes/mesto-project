@@ -1,5 +1,5 @@
-export class FormValidator { 
-  constructor (validationSettings, rootElement) {
+export class FormValidator {
+  constructor(validationSettings, rootElement) {
     this._rootElement = rootElement;
     this._formSelector = validationSettings.formSelector;
     this._inputSelector = validationSettings.inputSelector;
@@ -15,51 +15,55 @@ export class FormValidator {
       this._hideInputError(inputElement, formError)
     })
   }
-  
+
   _showInputError(inputSelector, errorBlock, errorMessage) {
     inputSelector.classList.add(this._inputErrorClass);
     errorBlock.textContent = errorMessage;
     errorBlock.classList.add(this._errorClass);
   };
-  
+
   _hideInputError(inputSelector, errorBlock) {
     inputSelector.classList.remove(this._inputErrorClass);
     errorBlock.textContent = '';
     errorBlock.classList.remove(this._errorClass);
   };
-  
+
   _hasInvalidInput = () => {
     return this.allInputs.some((inputElement) => {
       return !inputElement.validity.valid;
     })
   };
-  
+
+  setDisabledSubmitButton = () => {
+    this.submitButton.disabled = true;
+    this.submitButton.classList.add(this._inactiveButtonClass);
+  }
+
   _toggleSubmitButtonState = () => {
     if (this._hasInvalidInput()) {
-      this.submitButton.disabled = true;
-      this.submitButton.classList.add(this._inactiveButtonClass);
+      this.setDisabledSubmitButton();
     } else {
       this.submitButton.disabled = false;
       this.submitButton.classList.remove(this._inactiveButtonClass);
     }
   };
-  
+
   _isInputValid = (inputElement) => {
     const formError = this._rootElement.querySelector(`span[data-input-error="${inputElement.name}"]`);
-    
+
     if (inputElement.validity.patternMismatch) {
       inputElement.setCustomValidity("Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы.");
     } else {
       inputElement.setCustomValidity("");
     }
-  
+
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement, formError, inputElement.validationMessage);
     } else {
       this._hideInputError(inputElement, formError);
     }
   };
-  
+
   enableValidation() {
     this.allInputs = Array.from(this._rootElement.querySelectorAll(this._inputSelector));
     this.submitButton = this._rootElement.querySelector(this._submitButtonSelector);

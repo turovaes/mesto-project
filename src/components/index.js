@@ -56,6 +56,7 @@ document
         const { name, about } = userInfo.getUserInfo();
         editPopupForm.allInputs[0].value = name;
         editPopupForm.allInputs[1].value = about;
+        editPopupForm.setDisabledSubmitButton();
         editPopup.open();
     });
 
@@ -68,7 +69,10 @@ avatarPopupForm.enableValidation();
 avatarPopup.setEventListeners(avatarPopupForm);
 document
     .querySelector(".profile__avatar-edit-icon")
-    .addEventListener("click", () => avatarPopup.open());
+    .addEventListener("click", () => {
+        avatarPopupForm.setDisabledSubmitButton();
+        avatarPopup.open()
+    });
 
 /**
 * Добавление карточки
@@ -79,7 +83,10 @@ addCardPopupForm.enableValidation();
 addCardPopup.setEventListeners(addCardPopupForm);
 document
     .querySelector(".profile__add-button")
-    .addEventListener("click", () => addCardPopup.open());
+    .addEventListener("click", () => {
+        addCardPopupForm.setDisabledSubmitButton();
+        addCardPopup.open()
+    });
 
 
 function handleCardClick(link, name) {
